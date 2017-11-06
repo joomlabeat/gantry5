@@ -38,6 +38,7 @@ class Page extends Base\Page
         $this->task     = $input->getCmd('task', '');
         $this->itemid   = $input->getInt('Itemid', 0);
         $this->printing = $input->getCmd('print', '');
+        $this->userBC   = $input->getCmd('gantryUserBodyClasses', '');
 
         $this->class = '';
         if ($this->itemid) {
@@ -99,6 +100,11 @@ class Page extends Base\Page
         if ($this->printing) $classes[] = 'print-mode';
         if ($this->itemid) $classes[] = 'itemid-' . $this->itemid;
         if ($this->outline) $classes[] = 'outline-' . $this->outline;
+        if ($this->userBC && is_array($this->userBC)) {
+            foreach ($this->userBC as $class) {
+                $classes[] = $class;
+            }
+        }
 
         $baseAttributes = (array) $this->config->get('page.body.attribs', []);
         if (!empty($baseAttributes['class'])) {
